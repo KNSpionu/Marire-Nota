@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mesaj pentru doamna profesoară</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+        }
+        .laptop {
+            width: 600px;
+            height: 500px;
+            background-color: #333;
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .screen {
+            background-color: #fff;
+            border-radius: 10px;
+            padding: 15px;
+            height: 70%;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+        .message {
+            max-width: 70%;
+            padding: 10px;
+            border-radius: 10px;
+            margin: 5px 0;
+            opacity: 0;
+            transform: translateY(10px);
+            animation: fadeIn 0.5s forwards;
+        }
+        .sent {
+            background-color: #d1e7dd;
+            align-self: flex-end;
+        }
+        .received {
+            background-color: #f8d7da;
+            align-self: flex-start;
+        }
+        .typing {
+            font-style: italic;
+            color: grey;
+            margin-bottom: 10px;
+            display: none;
+        }
+        .diagram {
+            background-color: white;
+            padding: 10px;
+            text-align: center;
+            margin-top: 10px;
+            display: none;
+        }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+    <script>
+        let messages = [
+            { text: "Stimată doamnă profesoară,", type: "received" },
+            { text: "Vă rog să îmi acceptați scuzele...", type: "sent" },
+            { text: "...dar nu mă simt pregătit pentru mărirea de notă...", type: "received" },
+            { text: "...și nu voi putea participa.", type: "sent" },
+            { text: "Vă mulțumesc pentru înțelegere!", type: "received" },
+            { text: "Cu respect, [Numele tău]", type: "sent" },
+            { text: "Totuși, am lucrat la o schemă logică pentru calculul ariei trapezului!", type: "received" }
+        ];
+        let index = 0;
+        function showMessages() {
+            if (index < messages.length) {
+                let chat = document.getElementById("chat");
+                let typingIndicator = document.getElementById("typing");
+                typingIndicator.style.display = "block";
+                setTimeout(() => {
+                    typingIndicator.style.display = "none";
+                    let msg = document.createElement("div");
+                    msg.className = `message ${messages[index].type}`;
+                    msg.innerText = messages[index].text;
+                    chat.appendChild(msg);
+                    chat.scrollTop = chat.scrollHeight;
+                    index++;
+                    showMessages();
+                }, 1000);
+            } else {
+                document.getElementById("diagram").style.display = "block";
+            }
+        }
+        window.onload = showMessages;
+    </script>
+</head>
+<body>
+    <div class="laptop">
+        <div class="screen" id="chat">
+            <div class="typing" id="typing">Se scrie un mesaj...</div>
+        </div>
+        <div class="diagram" id="diagram">
+            <h3>Schema logică - Calculul ariei trapezului</h3>
+            <p>Aria = (Baza mare + Baza mică) * Înălțimea / 2</p>
+            <pre>
+                +----------------+
+                |  Citire B, b, h |
+                +----------------+
+                         |
+                         v
+                +----------------+
+                |  A = (B + b) * h / 2 |
+                +----------------+
+                         |
+                         v
+                +----------------+
+                |  Afișare A    |
+                +----------------+
+            </pre>
+        </div>
+    </div>
+</body>
+</html>
